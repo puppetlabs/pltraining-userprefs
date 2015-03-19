@@ -16,12 +16,12 @@
     }
   ],
   "name": "pltraining-userprefs",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": "pltraining",
   "summary": "Simple user userprefs management",
   "license": "Apache License, Version 2.0",
   "source": "https://github.com/puppetlabs/pltraining-userprefs",
-  "project_page": "https://github.com/puppetlabs/puppetlabs-userprefs",
+  "project_page": "https://github.com/puppetlabs/pltraining-userprefs",
   "issues_url": "https://github.com/puppetlabs/pltraining-userprefs/issues",
   "description": "Important! This is not the module you are looking for\n    unless you are a trainer teaching the Puppet Fundamentals course!\n    - Allows users to customize their userprefs by choosing their editor & shell.",
   "dependencies": [
