@@ -16,7 +16,7 @@
     }
   ],
   "name": "pltraining-userprefs",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "author": "pltraining",
   "summary": "Simple user userprefs management",
   "license": "Apache License, Version 2.0",
