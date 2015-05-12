@@ -6,7 +6,7 @@ parse_git_branch ()
     if [[ "$GITDIR" != '/Users/shreyas' ]] # Don't show status of home directory repo
     then
         # Figure out the current branch, wrap in brackets and return it
-        local BRANCH=`git branch 2>/dev/null | sed -n '/^\*/s/^\* //p'`
+        local BRANCH=`git branch --no-color 2>/dev/null | sed -n '/^\*/s/^\* //p'`
         if [ -n "$BRANCH" ]; then
             echo -e "[$BRANCH]"
         fi
