@@ -3,7 +3,7 @@
 parse_git_branch ()
 {
     local GITDIR=`git rev-parse --show-toplevel 2>&1` # Get root directory of git repo
-    if [[ "$GITDIR" != '/Users/shreyas' ]] # Don't show status of home directory repo
+    if [[ "$GITDIR" != '/root' ]] # Don't show status of home directory repo
     then
         # Figure out the current branch, wrap in brackets and return it
         local BRANCH=`git branch 2>/dev/null | sed -n '/^\*/s/^\* //p'`
