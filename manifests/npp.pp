@@ -2,7 +2,7 @@ class userprefs::npp (
   $user    = 'Administrator',
   $default = true,
 )  {
-  require classroom::agent::chocolatey
+  require classroom::windows::chocolatey
 
   package { 'notepadplusplus':
     ensure   => present,
