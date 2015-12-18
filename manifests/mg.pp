@@ -1,4 +1,4 @@
-class userprefs::emacs (
+class userprefs::mg (
   $user    = 'root',
   $group   = 'root',
   $homedir = '/root',
@@ -17,11 +17,5 @@ class userprefs::emacs (
       match   => "EDITOR=",
       require => Package['mg'],
     }
-  }
-
-  file { '/bin/emacs':
-    ensure  => link,
-    target  => '/bin/mg',
-    require => Package['mg'],
   }
 }
