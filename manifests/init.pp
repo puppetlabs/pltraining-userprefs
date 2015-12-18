@@ -2,7 +2,7 @@
 #
 # Parameters:
 #   editor: Installs syntax highlighting and sets $EDITOR
-#           Accepts vim/ed/nano
+#           Accepts vim/mg/nano
 #    shell: Sets the default shell and installs rc files
 #           Accepts zsh/bash
 #
@@ -27,7 +27,7 @@ class userprefs (
   }
   else {
     if $editor {
-      if $editor in ['vim', 'ed', 'nano'] {
+      if $editor in ['vim', 'mg', 'nano'] {
         include "userprefs::${editor}"
       }
       else {

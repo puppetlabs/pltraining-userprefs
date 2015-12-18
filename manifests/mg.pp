@@ -1,11 +1,11 @@
-class userprefs::ed (
+class userprefs::mg (
   $user    = 'root',
   $group   = 'root',
   $homedir = '/root',
   $default = true,
 ) {
 
-  package { 'ed':
+  package { 'mg':
     ensure => present,
   }
 
@@ -13,9 +13,9 @@ class userprefs::ed (
   if $default {
     file_line { 'default editor':
       path    => "${homedir}/.profile",
-      line    => 'export EDITOR=ed',
+      line    => 'export EDITOR=mg',
       match   => "EDITOR=",
-      require => Package['ed'],
+      require => Package['mg'],
     }
   }
 }
