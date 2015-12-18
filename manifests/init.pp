@@ -27,7 +27,7 @@ class userprefs (
   }
   else {
     if $editor {
-      if $editor in ['vim', 'mg', 'nano'] {
+      if $editor in ['vim', 'mg', 'nano', 'emacs'] {
         include "userprefs::${editor}"
       }
       else {
