@@ -1,9 +1,10 @@
 class userprefs::zsh (
-  $user     = 'root',
-  $group    = 'root',
-  $homedir  = '/root',
-  $default  = true,
-  $password = undef,
+  $user      = 'root',
+  $group     = 'root',
+  $homedir   = '/root',
+  $default   = true,
+  $password  = undef,
+  $gitprompt = false,
 ) {
   File {
     owner => $user,
@@ -32,7 +33,7 @@ class userprefs::zsh (
 
   file { "${homedir}/.zshrc.puppet":
     ensure  => file,
-    source  => 'puppet:///modules/userprefs/shell/zshrc.puppet',
+    source  => epp('userprefs/zshrc.puppet', {'gitprompt' => $gitprompt}),
     require => Package['zsh'],
   }
 

@@ -1,10 +1,11 @@
 class userprefs::bash (
-  $user     = 'root',
-  $group    = 'root',
-  $homedir  = '/root',
-  $default  = true,
-  $password = undef,
-  $replace  = false,
+  $user      = 'root',
+  $group     = 'root',
+  $homedir   = '/root',
+  $default   = true,
+  $password  = undef,
+  $replace   = false,
+  $gitprompt = false,
 ) {
   File {
     owner => $user,
@@ -32,7 +33,7 @@ class userprefs::bash (
 
   file { "${homedir}/.bashrc.puppet":
     ensure  => file,
-    content => template('userprefs/bashrc.puppet.erb'),
+    content => epp('userprefs/bashrc.puppet.erb', { 'gitprompt' => $gitprompt }),
     require => Package['bash'],
   }
 
