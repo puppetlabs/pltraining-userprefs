@@ -42,4 +42,7 @@ git_prompt_string() {
   [ -n "$git_where" ] && echo "$GIT_PROMPT_SYMBOL$(parse_git_state)$GIT_PROMPT_PREFIX%{$fg[red]%}${git_where#(refs/heads/|tags/)}$GIT_PROMPT_SUFFIX"
 }
 
-PROMPT='%n@%m:%0~ $(git_prompt_string)# '
+<% if $gitprompt { -%>
+PROMPT='%{$fg_bold[green]%}%n@%m%{$reset_color%}:%{$fg_bold[cyan]%}%0~ %{$reset_color%}$(git_prompt_string)# '
+<% } -%>
+PROMPT='%{$fg_bold[green]%}%n@%m%{$reset_color%}:%{$fg_bold[cyan]%}%0~ %{$reset_color%}# '

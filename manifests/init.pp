@@ -7,8 +7,9 @@
 #           Accepts zsh/bash
 #
 class userprefs (
-  $editor = undef,
-  $shell  = undef,
+  $editor    = undef,
+  $shell     = undef,
+  $gitprompt = true,
 ) {
 
   if $::osfamily == 'Windows' {
@@ -36,11 +37,20 @@ class userprefs (
     }
 
     if $shell {
-      if $shell in ['bash', 'zsh'] {
-        include "userprefs::${shell}"
-      }
-      else {
-        fail("The shell ${shell} is unsupported")
+      case $shell {
+        'zsh': {
+          class { 'userprefs::zsh':
+            gitprompt => $gitprompt,
+          }
+        }
+        'bash': {
+          class { 'userprefs::bash':
+            gitprompt => $gitprompt,
+          }
+        }
+        default: {
+          fail("The shell ${shell} is unsupported")
+        }
       }
     }
 
