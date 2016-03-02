@@ -33,7 +33,7 @@ class userprefs::bash (
 
   file { "${homedir}/.bashrc.puppet":
     ensure  => file,
-    content => epp('userprefs/bashrc.puppet.erb', { 'gitprompt' => $gitprompt }),
+    content => epp('userprefs/bashrc.puppet.epp', { 'gitprompt' => $gitprompt }),
     require => Package['bash'],
   }
 
