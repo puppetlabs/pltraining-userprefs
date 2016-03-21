@@ -1,22 +1,10 @@
-class userprefs::npp (
+class userprefs::atom (
   $user    = 'Administrator',
-  $default = false,
+  $default = true,
 )  {
-  package { 'notepadplusplus':
+  package { 'atom':
     ensure   => present,
     provider => chocolatey,
-  }
-
-  file { "C:/Users/${user}/AppData/Roaming/Notepad++":
-    ensure  => directory,
-    require => Package['notepadplusplus'],
-  }
-
-  file { "C:/Users/${user}/AppData/Roaming/Notepad++/userDefineLang.xml":
-    ensure  => file,
-    replace => false,
-    source  => 'puppet:///modules/userprefs/npp/userDefineLang.xml',
-    require => Package['notepadplusplus'],
   }
 
   if $default {
@@ -26,10 +14,10 @@ class userprefs::npp (
       data   => 'Source Code',
     }
 
-    registry::value { 'open with notepadplusplus':
+    registry::value { 'open with atom':
       key    => 'HKLM\Software\Classes\sourcecode\shell\open\command',
       value  => '(Default)',
-      data   => '"C:\Program Files (x86)\Notepad++\notepad++.exe" "%1"',
+      data   => '"C:\Users\Administrator\AppData\Local\atom\app-1.6.0\atom.exe" "%1"',
     }
 
     registry::value { 'Puppet Manifests':
@@ -52,6 +40,12 @@ class userprefs::npp (
 
     registry::value { 'Ruby Source Code':
       key    => 'HKLM\Software\Classes\.rp',
+      value  => '(Default)',
+      data   => 'sourcecode',
+    }
+
+    registry::value { 'Conf files':
+      key    => 'HKLM\Software\Classes\.conf',
       value  => '(Default)',
       data   => 'sourcecode',
     }

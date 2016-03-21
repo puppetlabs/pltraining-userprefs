@@ -14,11 +14,16 @@ class userprefs (
 
   if $::osfamily == 'Windows' {
     if $editor {
-      if $editor == 'npp' {
-      include userprefs::npp
-      }
-      else {
-        fail("The editor ${editor} is unsupported")
+      case $editor {
+        'npp': {
+          include userprefs::npp
+        }
+        'atom': {
+          include userprefs::atom
+        }
+        default: {
+          fail("The editor ${editor} is unsupported")
+        }
       }
     }
 
