@@ -1,22 +1,11 @@
-class userprefs::npp (
+class userprefs::sublimetext (
   $user    = 'Administrator',
   $default = true,
 )  {
-  package { 'notepadplusplus':
+
+  package { 'sublimetext3':
     ensure   => present,
     provider => chocolatey,
-  }
-
-  file { "C:/Users/${user}/AppData/Roaming/Notepad++":
-    ensure  => directory,
-    require => Package['notepadplusplus'],
-  }
-
-  file { "C:/Users/${user}/AppData/Roaming/Notepad++/userDefineLang.xml":
-    ensure  => file,
-    replace => false,
-    source  => 'puppet:///modules/userprefs/npp/userDefineLang.xml',
-    require => Package['notepadplusplus'],
   }
 
   if $default {
@@ -26,10 +15,10 @@ class userprefs::npp (
       data   => 'Source Code',
     }
 
-    registry::value { 'open with notepadplusplus':
+    registry::value { 'Open with Sublime Text':
       key    => 'HKLM\Software\Classes\sourcecode\shell\open\command',
       value  => '(Default)',
-      data   => '"C:\Program Files (x86)\Notepad++\notepad++.exe" "%1"',
+      data   => '"C:\Program Files\Sublime Text 3\sublime_text.exe" "%1"',
     }
 
     registry::value { 'Puppet Manifests':

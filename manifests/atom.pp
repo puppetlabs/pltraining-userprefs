@@ -14,7 +14,7 @@ class userprefs::atom (
       data   => 'Source Code',
     }
 
-    registry::value { 'open with atom':
+    registry::value { 'Open with Atom':
       key    => 'HKLM\Software\Classes\sourcecode\shell\open\command',
       value  => '(Default)',
       data   => '"C:\Users\Administrator\AppData\Local\atom\app-1.6.0\atom.exe" "%1"',

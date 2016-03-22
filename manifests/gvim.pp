@@ -1,22 +1,11 @@
-class userprefs::npp (
+class userprefs::gvim (
   $user    = 'Administrator',
   $default = true,
 )  {
-  package { 'notepadplusplus':
+
+  package { 'vim':
     ensure   => present,
     provider => chocolatey,
-  }
-
-  file { "C:/Users/${user}/AppData/Roaming/Notepad++":
-    ensure  => directory,
-    require => Package['notepadplusplus'],
-  }
-
-  file { "C:/Users/${user}/AppData/Roaming/Notepad++/userDefineLang.xml":
-    ensure  => file,
-    replace => false,
-    source  => 'puppet:///modules/userprefs/npp/userDefineLang.xml',
-    require => Package['notepadplusplus'],
   }
 
   if $default {
@@ -26,10 +15,10 @@ class userprefs::npp (
       data   => 'Source Code',
     }
 
-    registry::value { 'open with notepadplusplus':
+    registry::value { 'Open with Vi Improved - A Text Editor':
       key    => 'HKLM\Software\Classes\sourcecode\shell\open\command',
       value  => '(Default)',
-      data   => '"C:\Program Files (x86)\Notepad++\notepad++.exe" "%1"',
+      data   => '"C:\Program Files (x86)\vim\vim74\gvim.exe" "%1"',
     }
 
     registry::value { 'Puppet Manifests':
