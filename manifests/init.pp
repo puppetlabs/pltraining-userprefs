@@ -15,7 +15,7 @@ class userprefs (
   if $::osfamily == 'Windows' {
     if $editor {
       if $editor in ['gvim', 'atom', 'sublimetext', 'npp'] {
-      include "userprefs::${editor}"
+        include "userprefs::${editor}"
       }
       else {
         fail("The editor ${editor} is unsupported")

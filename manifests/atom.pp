@@ -2,7 +2,6 @@ class userprefs::atom (
   $user    = 'Administrator',
   $default = true,
 )  {
-
   package { 'atom':
     ensure   => present,
     provider => chocolatey,
@@ -41,6 +40,12 @@ class userprefs::atom (
 
     registry::value { 'Ruby Source Code':
       key    => 'HKLM\Software\Classes\.rp',
+      value  => '(Default)',
+      data   => 'sourcecode',
+    }
+
+    registry::value { 'Conf files':
+      key    => 'HKLM\Software\Classes\.conf',
       value  => '(Default)',
       data   => 'sourcecode',
     }
