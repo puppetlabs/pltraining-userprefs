@@ -4,7 +4,7 @@ class userprefs::mg (
   $homedir = '/root',
   $default = true,
 ) {
-  contain epel
+  include epel
 
   package { 'mg':
     ensure  => present,
