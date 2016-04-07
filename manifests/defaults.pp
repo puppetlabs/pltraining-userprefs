@@ -6,6 +6,6 @@ class userprefs::defaults {
     replace  => true,
   }
 
-  class { 'userprefs::emacs': default => false }
+  class { 'userprefs::mg': default => false }
   class { 'userprefs::vim':   default => false }
 }

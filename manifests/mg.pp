@@ -1,12 +1,14 @@
-class userprefs::emacs (
+class userprefs::mg (
   $user    = 'root',
   $group   = 'root',
   $homedir = '/root',
   $default = true,
 ) {
+  include epel
 
   package { 'mg':
-    ensure => present,
+    ensure  => present,
+    require => Class['epel'],
   }
 
 
@@ -17,11 +19,5 @@ class userprefs::emacs (
       match   => "EDITOR=",
       require => Package['mg'],
     }
-  }
-
-  file { '/bin/emacs':
-    ensure  => link,
-    target  => '/bin/mg',
-    require => Package['mg'],
   }
 }

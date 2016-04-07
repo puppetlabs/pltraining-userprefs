@@ -2,19 +2,20 @@
 #
 # Parameters:
 #   editor: Installs syntax highlighting and sets $EDITOR
-#           Accepts vim/emacs/nano
+#           Accepts vim/mg/nano
 #    shell: Sets the default shell and installs rc files
 #           Accepts zsh/bash
 #
 class userprefs (
-  $editor = undef,
-  $shell  = undef,
+  $editor    = undef,
+  $shell     = undef,
+  $gitprompt = true,
 ) {
 
   if $::osfamily == 'Windows' {
     if $editor {
-      if $editor == 'npp' {
-      include userprefs::npp
+      if $editor in ['gvim', 'atom', 'sublimetext', 'npp'] {
+        include "userprefs::${editor}"
       }
       else {
         fail("The editor ${editor} is unsupported")
@@ -27,7 +28,7 @@ class userprefs (
   }
   else {
     if $editor {
-      if $editor in ['vim', 'emacs', 'nano'] {
+      if $editor in ['vim', 'mg', 'nano', 'emacs'] {
         include "userprefs::${editor}"
       }
       else {
@@ -36,11 +37,20 @@ class userprefs (
     }
 
     if $shell {
-      if $shell in ['bash', 'zsh'] {
-        include "userprefs::${shell}"
-      }
-      else {
-        fail("The shell ${shell} is unsupported")
+      case $shell {
+        'zsh': {
+          class { 'userprefs::zsh':
+            gitprompt => $gitprompt,
+          }
+        }
+        'bash': {
+          class { 'userprefs::bash':
+            gitprompt => $gitprompt,
+          }
+        }
+        default: {
+          fail("The shell ${shell} is unsupported")
+        }
       }
     }
 

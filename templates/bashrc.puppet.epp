@@ -40,19 +40,10 @@ function git_color ()
     fi
 }
 
-# Call the above functions inside the PS1 declaration
+# Call the above functions inside the PS1 declaration if we want to see git status
+<% if $gitprompt { -%>
 export PS1='\[$(git_color)\]$(parse_git_branch)\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\] \$ '
+<% } -%>
 
-<% if @hostname =~ /learn/ -%>
-#- to be used with new 'quest' command and .tmux.conf
-function check_quest() {
-  (quest updatecache --list brief >/dev/null && \
-  quest updatecache --progress brief >/dev/null &)
-}
-
-export PROMPT_COMMAND='history -a; history -r; check_quest'
-
-# If not running interactively, do not do anything
-[[ $- != *i* ]] && exec tmux && return
-[[ -z "$TMUX" ]] && exec tmux && exec tmux attach
-<% end -%>
+# Otherwise display only user and directory
+export PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\] \$ '
