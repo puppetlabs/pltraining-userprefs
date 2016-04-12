@@ -44,5 +44,6 @@ git_prompt_string() {
 
 <% if $gitprompt { -%>
 PROMPT='%{$fg_bold[green]%}%n@%m%{$reset_color%}:%{$fg_bold[cyan]%}%0~ %{$reset_color%}$(git_prompt_string)# '
-<% } -%>
+<% } else {  -%>
 PROMPT='%{$fg_bold[green]%}%n@%m%{$reset_color%}:%{$fg_bold[cyan]%}%0~ %{$reset_color%}# '
+<% } -%>
