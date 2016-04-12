@@ -33,7 +33,7 @@ class userprefs::zsh (
 
   file { "${homedir}/.zshrc.puppet":
     ensure  => file,
-    source  => epp('userprefs/zshrc.puppet', {'gitprompt' => $gitprompt}),
+    content => epp('userprefs/zshrc.puppet', {'gitprompt' => $gitprompt}),
     require => Package['zsh'],
   }
 
