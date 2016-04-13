@@ -31,11 +31,7 @@ Classifying a node with classroom defaults:
 
 Contact
 -------
-ben.ford@puppetlabs.com
-js@puppetlabs.com
-education@puppetlabs.com
+ben.ford@puppetlabs.com  
+js@puppetlabs.com  
+education@puppetlabs.com  
 
-Support
--------
-
-Please log tickets and issues at our [Projects site](http://puppetlabs.com/training/issues)
