@@ -33,3 +33,6 @@ au BufRead,BufNewFile *_spec.rb
 
 " Enable indentation matching for =>'s
 filetype plugin indent on
+
+" Show line numbers
+set number
