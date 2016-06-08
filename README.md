@@ -29,6 +29,17 @@ Classifying a node with classroom defaults:
 
 ```
 
+Classifying a node with vim defaults:
+
+```puppet
+
+    class { 'userprefs::vim':
+      monochrome  => true,  # this turns off syntax highlighting, allowed values: true/false
+      line_number => false, # this turns off line numbering, allowed values: true/false
+    }
+
+```
+
 Contact
 -------
 ben.ford@puppetlabs.com  
