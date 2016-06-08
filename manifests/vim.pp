@@ -4,10 +4,10 @@ class userprefs::vim (
   $homedir     = '/root',
   $default     = true,
   $monochrome  = undef,
-  $line_number = undef,
+  $line_number = true,
 ) {
 
-  if $monochrome {
+  if $monochrome == true {
     $syntax   = 'off'
     $hlsearch = 'nohlsearch'
     $t_Co     = 't_Co=0'
@@ -18,7 +18,7 @@ class userprefs::vim (
     $t_Co     = 't_Co=256'
   }
 
-  if $line_number {
+  if $line_number == true {
     $line_num = 'number'
   }
   else {
