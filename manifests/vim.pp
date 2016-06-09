@@ -1,9 +1,30 @@
 class userprefs::vim (
-  $user    = 'root',
-  $group   = 'root',
-  $homedir = '/root',
-  $default = true,
+  $user        = 'root',
+  $group       = 'root',
+  $homedir     = '/root',
+  $default     = true,
+  $monochrome  = undef,
+  $line_number = true,
 ) {
+
+  if $monochrome == true {
+    $syntax   = 'off'
+    $hlsearch = 'nohlsearch'
+    $t_Co     = 't_Co=0'
+  }
+  else {
+    $syntax   = 'on'
+    $hlsearch = 'hlsearch'
+    $t_Co     = 't_Co=256'
+  }
+
+  if $line_number == true {
+    $line_num = 'number'
+  }
+  else {
+    $line_num = 'nonumber'
+  }
+
   File {
     owner => $user,
     group => $group,
@@ -21,7 +42,7 @@ class userprefs::vim (
   }
 
   file { "${homedir}/.vimrc":
-    source => 'puppet:///modules/userprefs/vim/vimrc',
+    content => template('userprefs/vimrc.erb'),
   }
 
   if $default {
