@@ -16,7 +16,8 @@ Customizing the environment:
 
     class { 'userprefs':
       shell  => 'zsh',  # allowed values: bash/zsh
-      editor => 'vim',  # allowed valued: emacs/nano/vim
+      editor => 'vim',  #   Linux: emacs/nano/vim
+                          Windows: gvim/atom/sublimetext/npp
     }
 
 ```
