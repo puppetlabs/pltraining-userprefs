@@ -1,7 +1,7 @@
 class userprefs::windows_editor (
   $editor = undef
 ) {
-  include userprefs::editor_registry
+  include userprefs::editors_registry
 
   if $editor == 'atom' {
     $editor_name = 'atom'
