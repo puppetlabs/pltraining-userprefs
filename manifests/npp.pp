@@ -1,6 +1,6 @@
 class userprefs::npp {
   include userprefs::editors_registry
-  $user = 'Administrator',
+  $user = 'Administrator'
 
   package { 'notepadplusplus':
     ensure   => present,
