@@ -24,7 +24,7 @@ class userprefs::editors_registry {
   }
 
   registry::value { 'Ruby Source Code':
-    key    => 'HKLM\Software\Classes\.rp',
+    key    => 'HKLM\Software\Classes\.rb',
     value  => '(Default)',
     data   => 'sourcecode',
   }
