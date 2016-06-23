@@ -1,0 +1,80 @@
+#! /bin/bash
+# source: https://github.com/binford2k/bash_completion/
+
+CACHE="${HOME}/.cache/puppetlabs/completion"
+
+_puppet_certnames()
+{
+    inventory=$(puppet cert list --all | awk '{print $2}' | grep -v pe-internal | sed 's/"//g')
+    COMPREPLY+=( $( compgen -W "$cert_list" -- "$cur" ) )
+}
+
+_puppet_cert_options()
+{
+    opts="clean fingerprint generate list print revoke sign verify"
+
+    if [[ $opts =~ $1 ]]
+    then
+        certnames=$(_puppet_certnames)
+        COMPREPLY=( $(compgen -W "${certnames} --all" -- ${cur}) )
+    else
+        COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+    fi
+
+    return 0
+}
+
+_puppet_types()
+{
+    puppet_types=$(cat "${CACHE}/types")
+    COMPREPLY+=( $(compgen -W "$puppet_types" -- "$cur") )
+}
+
+_puppet_docs()
+{
+    puppet_docs=$(cat "${CACHE}/docs")
+    COMPREPLY+=( $(compgen -W "$puppet_docs" -- "$cur") )
+}
+
+_puppet_subcommands()
+{
+    local cur prev opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    action="${COMP_WORDS[1]}"
+
+    case "${action}" in
+      cert)
+        _puppet_cert_options $prev
+        return 0
+        ;;
+      resource)
+        _puppet_types $prev
+        return 0
+        ;;
+      doc)
+        _puppet_docs $prev
+        return 0
+        ;;
+      *)
+        ;;
+    esac
+
+    opts=$(cat "${CACHE}/commands")
+
+    COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+    return 0
+}
+
+
+mkdir -p $CACHE
+
+puppet describe --list | awk '{print $1}'        > "${CACHE}/types.new"    && mv -f "${CACHE}/types.new" "${CACHE}/types" &
+disown
+puppet help | grep '^  \w*\b' | awk '{print $1}' > "${CACHE}/commands.new" && mv -f "${CACHE}/commands.new" "${CACHE}/commands" &
+disown
+puppet doc --list | awk '{print $1}'             > "${CACHE}/docs.new"     && mv -f "${CACHE}/docs.new" "${CACHE}/docs" &
+disown
+
+complete -F _puppet_subcommands puppet
