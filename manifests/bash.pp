@@ -31,6 +31,20 @@ class userprefs::bash (
     require => Package['bash'],
   }
 
+  file { '/etc/bash_completion.d/puppet':
+    ensure  => file,
+    replace => $replace,
+    source  => 'puppet:///modules/userprefs/shell/completion/puppet',
+    require => Package['bash'],
+  }
+
+  file { ['puppetca', 'puppetd', 'puppetdoc', 'puppetmasterd', 'puppetqd', 'puppetrun']:
+    ensure  => link,
+    target  => '/etc/bash_completion.d/puppet',
+    replace => $replace,
+    require => Package['bash'],
+  }
+
   file { "${homedir}/.bashrc.puppet":
     ensure  => file,
     content => epp('userprefs/bashrc.puppet.epp', { 'gitprompt' => $gitprompt }),
