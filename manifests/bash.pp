@@ -33,15 +33,9 @@ class userprefs::bash (
 
   file { '/etc/bash_completion.d/puppet':
     ensure  => file,
+    mode    => '0755',
     replace => $replace,
     source  => 'puppet:///modules/userprefs/shell/completion/puppet',
-    require => Package['bash'],
-  }
-
-  file { ['puppetca', 'puppetd', 'puppetdoc', 'puppetmasterd', 'puppetqd', 'puppetrun']:
-    ensure  => link,
-    target  => '/etc/bash_completion.d/puppet',
-    replace => $replace,
     require => Package['bash'],
   }
 
