@@ -1,0 +1,16 @@
+fixtures:
+  symlinks:
+    userprefs: "#{source_dir}"
+  forge_modules:
+    chocolatey:
+      repo: "chocolatey/chocolatey"
+      ref: "1.2.5"
+    stdlib:
+      repo: "puppetlabs/stdlib"
+      ref: "4.12.0"
+    registry:
+      repo: "puppetlabs/registry"
+      ref: "1.1.3"
+    epel:
+      repo: "stahnma/epel"
+      ref: "1.2.2"
