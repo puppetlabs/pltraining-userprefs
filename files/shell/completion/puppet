@@ -36,6 +36,12 @@ _puppet_docs()
     COMPREPLY+=( $(compgen -W "$puppet_docs" -- "$cur") )
 }
 
+_puppet_opts()
+{
+    puppet_opts=$(cat "${CACHE}/options")
+    COMPREPLY+=( $(compgen -W "$puppet_opts --debug --verbose --help --version --logdest" -- "$cur") )
+}
+
 _puppet_subcommands()
 {
     local cur prev opts
@@ -49,12 +55,52 @@ _puppet_subcommands()
         _puppet_cert_options $prev
         return 0
         ;;
-      resource)
+      config)
+        if [[ "$prev" == "--section" ]];then
+          COMPREPLY+=( $(compgen -W "master agent user" -- "$cur") )
+        else
+          COMPREPLY+=( $(compgen -W "print set --section" -- "$cur") )
+        fi
+        return 0
+        ;;
+      describe|resource)
         _puppet_types $prev
         return 0
         ;;
       doc)
         _puppet_docs $prev
+        return 0
+        ;;
+      module)
+        COMPREPLY+=( $(compgen -W "build changes generate install list search uninstall upgrade" -- "$cur") )
+        COMPREPLY+=( $(compgen -o plusdirs -f -- "$cur") )
+        _puppet_opts $prev
+        return 0
+        ;;
+      apply)
+        COMPREPLY+=( $(compgen -W "--test --detailed-exitcodes --execute " -- "$cur") )
+        COMPREPLY+=( $(compgen -o plusdirs -f -- "$cur") )
+        _puppet_opts $prev
+        return 0
+        ;;
+      agent)
+        COMPREPLY+=( $(compgen -W "--test --detailed-exitcodes --waitforcert --onetime --fingerprint --enable --disable" -- "$cur") )
+        _puppet_opts $prev
+        return 0
+        ;;
+      master)
+        COMPREPLY+=( $(compgen -W "--no-daemonize --compile" -- "$cur") )
+        _puppet_opts $prev
+        return 0
+        ;;
+      parser)
+        COMPREPLY+=( $(compgen -W "validate" -- "$cur") )
+        _puppet_opts $prev
+        return 0
+        ;;
+      plugin)
+        COMPREPLY+=( $(compgen -W "download" -- "$cur") )
+        _puppet_opts $prev
         return 0
         ;;
       *)
@@ -63,18 +109,42 @@ _puppet_subcommands()
 
     opts=$(cat "${CACHE}/commands")
 
-    COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+    COMPREPLY=( $(compgen -W "${opts} --version --help" -- ${cur}) )
     return 0
 }
 
-
 mkdir -p $CACHE
 
-puppet describe --list | awk '{print $1}'        > "${CACHE}/types.new"    && mv -f "${CACHE}/types.new" "${CACHE}/types" &
-disown
-puppet help | grep '^  \w*\b' | awk '{print $1}' > "${CACHE}/commands.new" && mv -f "${CACHE}/commands.new" "${CACHE}/commands" &
-disown
-puppet doc --list | awk '{print $1}'             > "${CACHE}/docs.new"     && mv -f "${CACHE}/docs.new" "${CACHE}/docs" &
+(
+  if [ ! -f "${CACHE}/types.new" ]; then
+    puppet describe --list | awk '{print $1}' > "${CACHE}/types.new"
+    mv -f "${CACHE}/types.new" "${CACHE}/types"
+  fi
+) &
 disown
 
-complete -F _puppet_subcommands puppet
+(
+  if [ ! -f "${CACHE}/commands.new" ]; then
+    puppet help | grep '^  \w*\b' | awk '{print $1}' > "${CACHE}/commands.new"
+    mv -f "${CACHE}/commands.new" "${CACHE}/commands"
+  fi
+) &
+disown
+
+(
+  if [ ! -f "${CACHE}/docs.new" ]; then
+    puppet doc --list | awk '{print $1}' > "${CACHE}/docs.new"
+    mv -f "${CACHE}/docs.new" "${CACHE}/docs"
+  fi
+) &
+disown
+
+(
+  if [ ! -f "${CACHE}/options.new" ]; then
+    puppet config print | awk '{print "--"$1}' > "${CACHE}/options.new"
+    mv -f "${CACHE}/options.new" "${CACHE}/options"
+  fi
+) &
+disown
+
+complete -o filenames -F _puppet_subcommands puppet
