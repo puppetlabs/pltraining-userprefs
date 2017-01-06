@@ -1,11 +1,7 @@
 # Parameterized class to configure a user's environment.
 #
-# Parameters:
-#   editor: Installs syntax highlighting and sets $EDITOR
-#           Accepts vim/mg/nano
-#    shell: Sets the default shell and installs rc files
-#           Accepts zsh/bash
-#
+#  See README.md for usage examples and parameter descriptions.
+
 class userprefs (
   $editor    = undef,
   $shell     = undef,

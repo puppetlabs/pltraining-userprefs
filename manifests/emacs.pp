@@ -4,9 +4,11 @@ class userprefs::emacs (
   $homedir = '/root',
   $default = true,
 ) {
+  include epel
 
   package { 'mg':
     ensure => present,
+    require => Class['epel'],
   }
 
 

@@ -22,7 +22,7 @@ class userprefs::user (
   }
 
   if $editor {
-    if $editor in ['vim', 'ed', 'nano'] {
+    if $editor in ['vim', 'mg', 'nano', 'emacs'] {
       class { "userprefs::${editor}":
         user    => $user,
         group   => $group,

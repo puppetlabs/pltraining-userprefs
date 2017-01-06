@@ -3,7 +3,7 @@ class userprefs::vim (
   $group       = 'root',
   $homedir     = '/root',
   $default     = true,
-  $monochrome  = undef,
+  $monochrome  = false,
   $line_number = true,
 ) {
 
