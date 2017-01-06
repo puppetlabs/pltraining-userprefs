@@ -66,8 +66,6 @@ Classifying a Linux (only) node with specific vim options:
 
 Contact
 -------
-ben.ford@puppetlabs.com
-
-js@puppetlabs.com
-
-education@puppetlabs.com
+* ben.ford@puppets.com
+* js@puppet.com
+* education@puppet.com
