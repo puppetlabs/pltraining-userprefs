@@ -46,6 +46,7 @@ class userprefs::vim (
   }
 
   if $default {
+    include userprefs::profile
     file_line { 'default editor':
       path    => "${homedir}/.profile",
       line    => 'export EDITOR=vim',
