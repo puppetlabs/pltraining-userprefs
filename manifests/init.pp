@@ -8,7 +8,7 @@ class userprefs (
   $gitprompt = true,
 ) {
 
-  if $::osfamily == 'Windows' {
+  if $facts['os']['family'] == 'windows' {
     if $editor {
       if $editor in ['gvim', 'atom', 'sublimetext', 'npp'] {
         class { 'userprefs::windows_editor':
