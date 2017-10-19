@@ -7,5 +7,5 @@ class userprefs::defaults {
   }
 
   class { 'userprefs::mg': default => false }
-  class { 'userprefs::vim':   default => false }
+  class { 'userprefs::vim': default => false }
 }

@@ -1,14 +1,22 @@
 require 'spec_helper'
 
 describe "userprefs::emacs" do
-  let(:node) { 'test.example.com' }
-  let(:facts) { {
-    :fqdn                   => 'test.example.com',
-    :osfamily               => 'RedHat',
-    :operatingsystem        => 'CentOS',
-    :operatingsystemrelease => '7.2.1511'
-  } }
+  on_supported_os(facterversion: '3.6').each do |os, os_facts|
+    context "on #{os}" do
+      let(:facts) { os_facts }
+      let(:pre_condition) { 'include epel' }
 
-  it { is_expected.to compile.with_all_deps }
+      it { is_expected.to compile.with_all_deps }
+      it { is_expected.to contain_package('mg').with(
+        'ensure'  => 'present',
+        'require' => 'Class[Epel]',
+      ) }
 
+      it { is_expected.to contain_file('/bin/emacs').with(
+        'ensure'  => 'link',
+        'target'  => '/bin/mg',
+        'require' => 'Package[mg]',
+      ) }
+    end
+  end
 end

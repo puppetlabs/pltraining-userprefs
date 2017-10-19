@@ -7,7 +7,7 @@ class userprefs::emacs (
   include epel
 
   package { 'mg':
-    ensure => present,
+    ensure  => present,
     require => Class['epel'],
   }
 
