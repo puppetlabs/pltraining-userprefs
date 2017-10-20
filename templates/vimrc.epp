@@ -6,10 +6,10 @@ set nocompatible
 set modeline
 set bg=dark
 
-syntax <%= @syntax %>
-set <%= @hlsearch %>
-set <%= @t_Co %>
-set <%= @line_num %>
+syntax <%= $syntax %>
+set <%= $hlsearch %>
+set <%= $t_Co %>
+set <%= $line_num %>
 
 " set default comment color to cyan instead of darkblue
 " which is not very legible on a black background
