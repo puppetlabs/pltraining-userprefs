@@ -5,23 +5,25 @@ describe "userprefs::zsh" do
     context "on #{os}" do
       let(:facts) { os_facts }
 
-      it { is_expected.to compile.with_all_deps }
-
-      describe "with a gitprompt" do
-        let(:params) { { :gitprompt => true, } }
-
+      if os.start_with?('centos')
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to contain_file('/root/.zshrc.puppet').with_content(
-          /^GIT_PROMPT_SYMBOL=/
-        ) }
-      end
 
-      describe "without a gitprompt" do
-        let(:params) { { :gitprompt => false, } }
+        describe "with a gitprompt" do
+          let(:params) { { :gitprompt => true, } }
 
-        it { is_expected.to compile.with_all_deps }
-        it { is_expected.to contain_file(
-          '/root/.zshrc.puppet').without_content %r{^PROMPT=.*git_prompt_string} }
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to contain_file('/root/.zshrc.puppet').with_content(
+            /^GIT_PROMPT_SYMBOL=/
+          ) }
+        end
+
+        describe "without a gitprompt" do
+          let(:params) { { :gitprompt => false, } }
+
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to contain_file(
+            '/root/.zshrc.puppet').without_content %r{^PROMPT=.*git_prompt_string} }
+        end
       end
     end
   end

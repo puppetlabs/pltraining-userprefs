@@ -6,17 +6,19 @@ describe "userprefs::emacs" do
       let(:facts) { os_facts }
       let(:pre_condition) { 'include epel' }
 
-      it { is_expected.to compile.with_all_deps }
-      it { is_expected.to contain_package('mg').with(
-        'ensure'  => 'present',
-        'require' => 'Class[Epel]',
-      ) }
+      if os.start_with?('centos')
+        it { is_expected.to compile.with_all_deps }
+        it { is_expected.to contain_package('mg').with(
+          'ensure'  => 'present',
+          'require' => 'Class[Epel]',
+        ) }
 
-      it { is_expected.to contain_file('/bin/emacs').with(
-        'ensure'  => 'link',
-        'target'  => '/bin/mg',
-        'require' => 'Package[mg]',
-      ) }
+        it { is_expected.to contain_file('/bin/emacs').with(
+          'ensure'  => 'link',
+          'target'  => '/bin/mg',
+          'require' => 'Package[mg]',
+        ) }
+      end
     end
   end
 end

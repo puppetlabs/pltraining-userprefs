@@ -7,69 +7,71 @@ describe "userprefs" do
 
       it { is_expected.to compile.with_all_deps }
 
-      describe 'declaring bash and vim' do
-        let(:params) { {
-            'shell'  => 'bash',
-            'editor' => 'vim',
-          } }
+      if os.start_with?('centos')
+        describe 'declaring bash and vim' do
+          let(:params) { {
+              'shell'  => 'bash',
+              'editor' => 'vim',
+            } }
 
-        it { is_expected.to compile.with_all_deps }
-        it { is_expected.to contain_class('userprefs::bash') }
-        it { is_expected.to contain_class('userprefs::vim') }
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to contain_class('userprefs::bash') }
+          it { is_expected.to contain_class('userprefs::vim') }
+        end
+
+        describe 'declaring zsh and vim' do
+          let(:params) { {
+              'shell'  => 'zsh',
+              'editor' => 'vim',
+            } }
+
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to contain_class('userprefs::zsh') }
+          it { is_expected.to contain_class('userprefs::vim') }
+        end
+
+        describe 'declaring bash with gitprompt' do
+          let(:params) { {
+              'shell'     => 'bash',
+              'gitprompt' => true,
+            } }
+
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to contain_class('userprefs::bash').with_gitprompt(true) }
+        end
+
+        describe 'declaring bash without gitprompt' do
+          let(:params) { {
+              'shell'     => 'bash',
+              'gitprompt' => false,
+            } }
+
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to contain_class('userprefs::bash').with_gitprompt(false) }
+        end
+
+        describe 'declaring zsh with gitprompt' do
+          let(:params) { {
+              'shell'     => 'zsh',
+              'gitprompt' => true,
+            } }
+
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to contain_class('userprefs::zsh').with_gitprompt(true) }
+        end
+
+        describe 'declaring zsh without gitprompt' do
+          let(:params) { {
+              'shell'     => 'zsh',
+              'gitprompt' => false,
+            } }
+
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to contain_class('userprefs::zsh').with_gitprompt(false) }
+        end
       end
 
-      describe 'declaring zsh and vim' do
-        let(:params) { {
-            'shell'  => 'zsh',
-            'editor' => 'vim',
-          } }
-
-        it { is_expected.to compile.with_all_deps }
-        it { is_expected.to contain_class('userprefs::zsh') }
-        it { is_expected.to contain_class('userprefs::vim') }
-      end
-
-      describe 'declaring bash with gitprompt' do
-        let(:params) { {
-            'shell'     => 'bash',
-            'gitprompt' => true,
-          } }
-
-        it { is_expected.to compile.with_all_deps }
-        it { is_expected.to contain_class('userprefs::bash').with_gitprompt(true) }
-      end
-
-      describe 'declaring bash without gitprompt' do
-        let(:params) { {
-            'shell'     => 'bash',
-            'gitprompt' => false,
-          } }
-
-        it { is_expected.to compile.with_all_deps }
-        it { is_expected.to contain_class('userprefs::bash').with_gitprompt(false) }
-      end
-
-      describe 'declaring zsh with gitprompt' do
-        let(:params) { {
-            'shell'     => 'zsh',
-            'gitprompt' => true,
-          } }
-
-        it { is_expected.to compile.with_all_deps }
-        it { is_expected.to contain_class('userprefs::zsh').with_gitprompt(true) }
-      end
-
-      describe 'declaring zsh without gitprompt' do
-        let(:params) { {
-            'shell'     => 'zsh',
-            'gitprompt' => false,
-          } }
-
-        it { is_expected.to compile.with_all_deps }
-        it { is_expected.to contain_class('userprefs::zsh').with_gitprompt(false) }
-      end
-
-      if os == 'windows'
+      if os.start_with?('windows')
         describe "when applied on Windows" do
           # fake the file checks so they validate as absolute, even though they're Windows paths
           before :each do
@@ -122,5 +124,3 @@ describe "userprefs" do
     end
   end
 end
-
-

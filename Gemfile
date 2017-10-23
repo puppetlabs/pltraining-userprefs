@@ -123,6 +123,7 @@ extra_gemfiles.each do |gemfile|
     eval(File.read(gemfile), binding)
   end
 end
-gem 'rspec-puppet-facts', '~> 1.7', :require => false
-gem 'facterdb', :git => 'https://github.com/camptocamp/facterdb.git', :branch => 'windows_legacy_facts'
+#gem 'rspec-puppet-facts', '~> 1.7', :require => false
+gem 'rspec-puppet-facts', :git => 'https://github.com/mcanevet/rspec-puppet-facts.git', :branch => 'windows_facter_3x_hardwaremodel'
+gem 'facterdb', :git => 'https://github.com/camptocamp/facterdb.git'
 # vim: syntax=ruby
