@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe "userprefs" do
   on_supported_os(facterversion: '3.6').each do |os, os_facts|
-    context "on #{os}" do
-      let(:facts) { os_facts }
+    if os.start_with?('centos')
+      context "on #{os}" do
+        let(:facts) { os_facts }
 
-      it { is_expected.to compile.with_all_deps }
+        it { is_expected.to compile.with_all_deps }
 
-      if os.start_with?('centos')
         describe 'declaring bash and vim' do
           let(:params) { {
               'shell'  => 'bash',
@@ -70,15 +70,13 @@ describe "userprefs" do
           it { is_expected.to contain_class('userprefs::zsh').with_gitprompt(false) }
         end
       end
+    end
 
-      if os.start_with?('windows')
-        describe "when applied on Windows" do
-          # fake the file checks so they validate as absolute, even though they're Windows paths
-          before :each do
-            Puppet[:autosign] = false
-            Puppet::Util::Platform.stubs(:windows?).returns true
-          end
-        end
+    if os.start_with?('windows')
+      context "on #{os}" do
+        let(:facts) { os_facts }
+
+        it { is_expected.to compile.with_all_deps }
 
         describe "declaring Atom" do
           let(:params) { { :editor => 'atom', } }

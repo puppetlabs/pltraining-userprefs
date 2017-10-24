@@ -31,7 +31,7 @@ describe "userprefs::windows_editor" do
 
         describe "when declaring SublimeText" do
           let(:params) { { :editor => 'sublimetext', } }
-  
+
           it { is_expected.to compile.with_all_deps }
           it { is_expected.to contain_class('userprefs::sublimetext') }
         end

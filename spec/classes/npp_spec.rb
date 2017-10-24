@@ -6,11 +6,6 @@ describe "userprefs::npp" do
       context "on #{os}" do
         let(:facts) { os_facts }
 
-        before :each do
-          Puppet[:autosign] = false
-          Puppet::Util::Platform.stubs(:windows?).returns true
-        end
-
         it { is_expected.to compile.with_all_deps }
         it { is_expected.to contain_package('notepadplusplus').with(
           'ensure'   => 'present',
@@ -18,17 +13,23 @@ describe "userprefs::npp" do
         ) }
 
         it { is_expected.to contain_file(
-          'C:/Users/Administrator/AppData/Roaming/Notepad++').with(
-            'ensure' => 'directory',
-            'require' => 'Package[Notepadplusplus]',
+          'C:/Users/Administrator/AppData/Roaming/Notepad++').with_ensure('directory') }
+
+        it { is_expected.to contain_file(
+          'C:/Users/Administrator/AppData/Roaming/Notepad++').that_requires(
+            'Package[notepadplusplus]'
         ) }
 
         it { is_expected.to contain_file(
-          'C:/Users/${user}/AppData/Roaming/Notepad++/userDefineLang.xml').with(
+          'C:/Users/Administrator/AppData/Roaming/Notepad++/userDefineLang.xml').with(
             'ensure' => 'file',
             'replace' => 'false',
             'source'  => 'puppet:///modules/userprefs/npp/userDefineLang.xml',
-            'require' => 'Package[Notepadplusplus]',
+        ) }
+
+        it { is_expected.to contain_file(
+          'C:/Users/Administrator/AppData/Roaming/Notepad++/userDefineLang.xml').that_requires(
+            'Package[notepadplusplus]'
         ) }
       end
     end
