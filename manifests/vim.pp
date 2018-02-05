@@ -42,7 +42,12 @@ class userprefs::vim (
   }
 
   file { "${homedir}/.vimrc":
-    content => template('userprefs/vimrc.erb'),
+    content => epp('userprefs/vimrc.epp', {
+      'syntax'   => $syntax,
+      'hlsearch' => $hlsearch,
+      't_Co'     => $t_Co,
+      'line_num' => $line_num,
+    }),
   }
 
   if $default {

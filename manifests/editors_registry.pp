@@ -17,6 +17,12 @@ class userprefs::editors_registry {
     data   => 'sourcecode',
   }
 
+  registry::value { 'EPP Templates':
+    key    => 'HKLM\Software\Classes\.epp',
+    value  => '(Default)',
+    data   => 'sourcecode',
+  }
+
   registry::value { 'ERB Templates':
     key    => 'HKLM\Software\Classes\.erb',
     value  => '(Default)',
