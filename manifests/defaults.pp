@@ -2,7 +2,7 @@ class userprefs::defaults {
   include userprefs::profile
 
   class { 'userprefs::bash':
-    password => '$1$hgIZHl1r$tEqMTzoXz.NBwtW3kFv33/',
+    password => hiera('user_prefs_pwd'),
     replace  => true,
   }
 
