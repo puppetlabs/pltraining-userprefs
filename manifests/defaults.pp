@@ -1,11 +1,13 @@
+# @summary A short summary of the purpose of this class
+#
+# A description of what this class does
+#
+# @example
+#   include userprefs::defaults
 class userprefs::defaults {
   include userprefs::profile
+  include userprefs::bash
+  include userprefs::gitconfig
 
-  class { 'userprefs::bash':
-    password => '$1$hgIZHl1r$tEqMTzoXz.NBwtW3kFv33/',
-    replace  => true,
-  }
-
-  class { 'userprefs::mg': default => false }
   class { 'userprefs::vim': default => false }
 }

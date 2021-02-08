@@ -1,29 +1,24 @@
+# @summary A short summary of the purpose of this class
+#
+# A description of what this class does
+#
+# @example
+#   include userprefs::emacs
 class userprefs::emacs (
-  $user    = 'root',
-  $group   = 'root',
-  $homedir = '/root',
   $default = true,
 ) {
-  include epel
-
-  package { 'mg':
+  package { 'emacs':
     ensure  => present,
-    require => Class['epel'],
   }
 
-
-  if $default {
-    file_line { 'default editor':
-      path    => "${homedir}/.profile",
-      line    => 'export EDITOR=mg',
-      match   => "EDITOR=",
-      require => Package['mg'],
+  $users = lookup('userprefs::users', {'merge' => 'hash'})
+  $users.each |String $user, Hash $attributes| {
+    if $default {
+      file_line { "${user} default editor":
+        path  => "${attributes['home']}/.profile",
+        line  => 'export EDITOR=emacs -nw',
+        match => 'EDITOR=',
+      }
     }
-  }
-
-  file { '/bin/emacs':
-    ensure  => link,
-    target  => '/bin/mg',
-    require => Package['mg'],
   }
 }

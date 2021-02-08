@@ -1,0 +1,8 @@
+---
+userprefs::users:
+  root:
+    group: "root"
+    home: "/root"
+  centos:
+    group: "centos"
+    home: "/home/centos"

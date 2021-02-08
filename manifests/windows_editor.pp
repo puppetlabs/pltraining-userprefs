@@ -1,3 +1,9 @@
+# @summary A short summary of the purpose of this class
+#
+# A description of what this class does
+#
+# @example
+#   include userprefs::windows_editor
 class userprefs::windows_editor (
   $editor = undef
 ) {
@@ -26,9 +32,9 @@ class userprefs::windows_editor (
 
   unless $editor == undef {
     registry::value { "open with ${editor_name}":
-      key    => 'HKLM\Software\Classes\sourcecode\shell\open\command',
-      value  => '(Default)',
-      data   => "${editor_data}",
+      key   => 'HKLM\Software\Classes\sourcecode\shell\open\command',
+      value => '(Default)',
+      data  => $editor_data,
     }
   }
 }
