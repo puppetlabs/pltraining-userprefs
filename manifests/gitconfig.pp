@@ -5,14 +5,17 @@
 # @example
 #   include userprefs::gitconfig
 class userprefs::gitconfig {
-  $users = lookup('userprefs::users', {'merge' => 'hash'})
-  $users.each |String $user, Hash $attributes| {
-    file { "${attributes['home']}/.gitconfig":
-      ensure => file,
-      owner  => $user,
-      group  => $attributes['group'],
-      mode   => '0644',
-      source => 'puppet:///modules/userprefs/gitconfig',
+
+  if $facts['osfamily'] == 'CentOS' {
+    $users = lookup('userprefs::users', {'merge' => 'hash'})
+    $users.each |String $user, Hash $attributes| {
+      file { "${attributes['home']}/.gitconfig":
+        ensure => file,
+        owner  => $user,
+        group  => $attributes['group'],
+        mode   => '0644',
+        source => 'puppet:///modules/userprefs/gitconfig',
+      }
     }
   }
 }
