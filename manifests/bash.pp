@@ -1,56 +1,33 @@
-class userprefs::bash (
-  $user      = 'root',
-  $group     = 'root',
-  $homedir   = '/root',
-  $default   = true,
-  $password  = undef,
-  $replace   = false,
-  $gitprompt = false,
-) {
-  File {
-    owner => $user,
-    group => $group,
-    mode  => '0644',
-  }
-
+# @summary A short summary of the purpose of this class
+#
+# A description of what this class does
+#
+# @example
+#   include userprefs::bash
+class userprefs::bash {
   package { 'bash':
     ensure => present,
   }
 
-  file { "${homedir}/.bashrc":
-    ensure  => file,
-    replace => $replace,
-    source  => 'puppet:///modules/userprefs/shell/bashrc',
-    require => Package['bash'],
-  }
-
-  file { "${homedir}/.bash_profile":
-    ensure  => file,
-    replace => $replace,
-    source  => 'puppet:///modules/userprefs/shell/bash_profile',
-    require => Package['bash'],
-  }
-
-  file { '/etc/bash_completion.d/puppet':
-    ensure  => file,
-    mode    => '0755',
-    replace => $replace,
-    source  => 'puppet:///modules/userprefs/shell/completion/puppet',
-    require => Package['bash'],
-  }
-
-  file { "${homedir}/.bashrc.puppet":
-    ensure  => file,
-    content => epp('userprefs/bashrc.puppet.epp', { 'gitprompt' => $gitprompt }),
-    require => Package['bash'],
-  }
-
-  if $default {
+  $users = lookup('userprefs::users', {'merge' => 'hash'})
+  $users.each |String $user, Hash $attributes| {
+    file {
+      default:
+        ensure  => file,
+        owner   => $user,
+        group   => $attributes['group'],
+        mode    => '0644',
+        require => Package['bash'],
+      ;
+      "${attributes['home']}/.bashrc":
+        source  => 'puppet:///modules/userprefs/shell/bashrc',
+      ;
+      "${attributes['home']}/.bash_profile":
+        source  => 'puppet:///modules/userprefs/shell/bash_profile',
+      ;
+    }
     user { $user:
-      ensure   => present,
-      shell    => '/bin/bash',
-      password => $password,
-      require  => Package['bash'],
+      shell  => '/bin/bash',
     }
   }
 }

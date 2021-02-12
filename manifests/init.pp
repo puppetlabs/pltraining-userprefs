@@ -1,11 +1,12 @@
-# Parameterized class to configure a user's environment.
+# # @summary A short summary of the purpose of this class
 #
-#  See README.md for usage examples and parameter descriptions.
-
+# A description of what this class does
+#
+# @example
+#   include userprefs
 class userprefs (
   $editor    = undef,
   $shell     = undef,
-  $gitprompt = true,
 ) {
 
   if $facts['os']['family'] == 'windows' {
@@ -26,7 +27,7 @@ class userprefs (
   }
   else {
     if $editor {
-      if $editor in ['vim', 'mg', 'nano', 'emacs'] {
+      if $editor in ['vim', 'nano', 'emacs'] {
         include "userprefs::${editor}"
       }
       else {
@@ -37,14 +38,10 @@ class userprefs (
     if $shell {
       case $shell {
         'zsh': {
-          class { 'userprefs::zsh':
-            gitprompt => $gitprompt,
-          }
+          include userprefs::zsh
         }
         'bash': {
-          class { 'userprefs::bash':
-            gitprompt => $gitprompt,
-          }
+          include userprefs::bash
         }
         default: {
           fail("The shell ${shell} is unsupported")
@@ -53,5 +50,6 @@ class userprefs (
     }
 
     include userprefs::profile
+    include userprefs::gitconfig
   }
 }

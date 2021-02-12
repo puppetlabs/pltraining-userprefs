@@ -1,5 +1,9 @@
-# Parameterized class to configure a user's environment.
+# # @summary A short summary of the purpose of this class
 #
+# A description of what this class does
+#
+# @example
+#   include userprefs::user
 # Parameters:
 #   editor: Installs syntax highlighting and sets $EDITOR
 #           Accepts vim/ed/nano
@@ -7,49 +11,40 @@
 #           Accepts zsh/bash
 #
 class userprefs::user (
-  $user   = $::id,
   $editor = undef,
   $shell  = undef,
 ) {
   # this weird conditional is to support non-root users in Intro
-  if $user == 'root' {
-    $group   = 'root'
-    $homedir = '/root'
-  }
-  else {
-    $group   = 'pe-puppet'
-    $homedir = "/home/${user}"
-  }
-
-  if $editor {
-    if $editor in ['vim', 'mg', 'nano', 'emacs'] {
-      class { "userprefs::${editor}":
-        user    => $user,
-        group   => $group,
-        homedir => $homedir,
+  $users = lookup('userprefs::users', {'merge' => 'hash'})
+  $users.each |String $user, Hash $attributes| {
+    $group = $attributes['group']
+    $home = $attributes['home']
+    if $editor {
+      if $editor in ['vim', 'nano', 'emacs'] {
+        class { "userprefs::${editor}":
+          user    => $user,
+          group   => $group,
+          homedir => $home,
+        }
+      }
+      else {
+        fail("The editor ${editor} is unsupported")
       }
     }
-    else {
-      fail("The editor ${editor} is unsupported")
-    }
-  }
 
-  if $shell {
-    if $shell in ['bash', 'zsh'] {
-      class { "userprefs::${shell}":
-        user    => $user,
-        group   => $group,
-        homedir => $homedir,
+    if $shell {
+      if $shell in ['bash', 'zsh'] {
+        class { "userprefs::${shell}":
+          user    => $user,
+          group   => $group,
+          homedir => $home,
+        }
+      }
+      else {
+        fail("The shell ${shell} is unsupported")
       }
     }
-    else {
-      fail("The shell ${shell} is unsupported")
-    }
-  }
 
-  class { 'userprefs::profile':
-    user    => $user,
-    group   => $group,
-    homedir => $homedir,
+    include userprefs::profile
   }
 }

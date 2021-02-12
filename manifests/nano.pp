@@ -1,39 +1,41 @@
+# @summary A short summary of the purpose of this class
+#
+# A description of what this class does
+#
+# @example
+#   include userprefs::nano
 class userprefs::nano (
-  $user    = 'root',
-  $group   = 'root',
-  $homedir = '/root',
   $default = true,
 ) {
-  File {
-    owner => $user,
-    group => $group,
-    mode  => '0644',
-  }
-
   package { 'nano':
     ensure => present,
   }
 
-  file { "${homedir}/.nanorc":
-    ensure  => 'file',
-    source  => 'puppet:///modules/userprefs/nano/nanorc',
-  }
-
-  file { "${homedir}/.nano.d":
-    ensure => directory,
-  }
-
-  file { "${homedir}/.nano.d/puppet.nanorc":
-    ensure  => 'file',
-    source  => 'puppet:///modules/userprefs/nano/puppet.nanorc',
-  }
-
-  if $default {
-    file_line { 'default editor':
-      path    => "${homedir}/.profile",
-      line    => 'export EDITOR=nano',
-      match   => "EDITOR=",
-      require => Package['nano'],
+  $users = lookup('userprefs::users', {'merge' => 'hash'})
+  $users.each |String $user, Hash $attributes| {
+    file {
+      default:
+        ensure => file,
+        owner  => $user,
+        group  => $attributes['group'],
+      ;
+      "${attributes['home']}/.nanorc":
+        source => 'puppet:///modules/userprefs/nano/nanorc',
+      ;
+      "${attributes['home']}/.nano.d":
+        ensure => directory,
+      ;
+      "${attributes['home']}/.nano.d/puppet.nanorc":
+        source => 'puppet:///modules/userprefs/nano/puppet.nanorc',
+      ;
+    }
+    if $default {
+      file_line { "${user} default editor":
+        path    => "${attributes['home']}/.profile",
+        line    => 'export EDITOR=nano',
+        match   => 'EDITOR=',
+        require => Package['nano'],
+      }
     }
   }
 }

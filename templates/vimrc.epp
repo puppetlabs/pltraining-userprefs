@@ -8,7 +8,7 @@ set bg=dark
 
 syntax <%= $syntax %>
 set <%= $hlsearch %>
-set <%= $t_Co %>
+set <%= $t_co %>
 set <%= $line_num %>
 
 " set default comment color to cyan instead of darkblue
