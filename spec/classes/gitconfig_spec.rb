@@ -5,7 +5,7 @@ describe 'userprefs::gitconfig' do
     context "on #{os}" do
       case os_facts[:osfamily]
       when 'CentOS'
-        let(:facts) { os_facts.merge({ :home => '/root/.gitconfig' }) }
+        let(:facts) { os_facts.merge({ 'home' => '/root/.gitconfig' }) }
 
         it { is_expected.to compile }
       end
