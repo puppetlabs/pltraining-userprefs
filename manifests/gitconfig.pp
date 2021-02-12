@@ -6,7 +6,7 @@
 #   include userprefs::gitconfig
 class userprefs::gitconfig {
 
-  if $facts['osfamily'] == 'CentOS' {
+  if $facts['osfamily'] == 'RedHat' {
     $users = lookup('userprefs::users', {'merge' => 'hash'})
     $users.each |String $user, Hash $attributes| {
       file { "${attributes['home']}/.gitconfig":
