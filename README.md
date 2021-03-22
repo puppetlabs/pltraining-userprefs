@@ -1,6 +1,6 @@
 # userprefs
 
-A simple module that allows users to choose their default editor and, on Linux, default shell.
+A simple module that allows users to choose their default editor and, on Linux, default shell used within the Classroom Environment.
 
 ## About
 
@@ -14,7 +14,7 @@ An optional String indicating the default editor to be set in the user's environ
 
 Default: undef
 
-**Linux** valid choices are: 'vim', 'mg', 'nano', or 'emacs'
+**Linux** valid choices are: 'vim', 'nano', or 'emacs'
 
 **Windows** valid choices are: 'gvim', 'atom', 'sublimetext', or 'npp'
 
@@ -25,12 +25,6 @@ An optional String indicating the shell for the user.  Attempting to set this pa
 Default: undef
 
 **Linux** valid choices are: 'bash' or 'zsh'
-
-`gitprompt` (Linux only)
-
-Boolean specifying whether or not Linux shells should use a default command prompt that includes information about the current git status.  Attempting to set this on Windows will be ignored.
-
-Default: true
 
 ## Example usage:
 
@@ -66,6 +60,4 @@ Classifying a Linux (only) node with specific vim options:
 
 Contact
 -------
-* ben.ford@puppet.com
-* js@puppet.com
 * education@puppet.com
