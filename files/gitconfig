@@ -1,7 +1,0 @@
-[color]
-    ui = auto
-[color "status"]
-    changed = magenta
-    untracked = yellow
-    added = green
-    deleted = red
