@@ -1,0 +1,10 @@
+[user]
+  name = <%= $git_username %>
+  email = noreply@puppet.com
+[color]
+  ui = auto
+[color "status"]
+  changed = magenta
+  untracked = yellow
+  added = green
+  deleted = red

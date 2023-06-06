@@ -1,8 +1,8 @@
 {
   "name": "pltraining-userprefs",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "author": "pltraining",
-  "summary": "Simple user userprefs management",
+  "summary": "Simple user userprefs management !!! PUPPET CLASSROOM USE ONLY !!!",
   "license": "Apache-2.0",
   "source": "https://github.com/puppetlabs/pltraining-userprefs",
   "project_page": "https://github.com/puppetlabs/pltraining-userprefs",
@@ -49,7 +49,7 @@
       "version_requirement": ">= 5.5.0 < 7.0.0"
     }
   ],
-  "description": "Important! This is not the module you are looking for\n    unless you are a trainer teaching the Puppet Fundamentals course!\n    - Allows users to customize their userprefs by choosing their editor & shell.",
+  "description": "Important! This is not the module you are looking for\n    unless you are a trainer teaching the Puppet ILT course!\n    - Allows users to customize their userprefs by choosing their editor & shell.",
   "pdk-version": "1.18.0",
   "template-url": "pdk-default#1.18.0",
   "template-ref": "tags/1.18.0-0-g095317c"
